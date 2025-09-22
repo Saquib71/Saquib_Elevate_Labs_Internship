@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS = credentials('Docker_Hub_Credentials')
         IMAGE_NAME = "mohdsaquib31/static-site-demo"
     }
 
@@ -24,7 +24,7 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'Docker_Hub_Credentials') {
                         docker.image("${IMAGE_NAME}:latest").push()
                     }
                 }
