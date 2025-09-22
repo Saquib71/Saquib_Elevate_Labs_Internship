@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-       stage('Deploy Container') {
+stage('Deploy Container') {
     steps {
         script {
             // Stop & remove existing container if exists
@@ -50,6 +50,6 @@ pipeline {
                 sh "docker run -d -p 8080:80 --name static-site-demo ${IMAGE_NAME}:latest"
                 echo "Container deployed on port 8080"
             }
-        }
-    }
-}
+        } // <-- close script
+    } // <-- close steps
+} // <-- close stage
