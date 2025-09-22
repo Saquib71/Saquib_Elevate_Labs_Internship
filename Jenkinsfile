@@ -32,12 +32,23 @@ pipeline {
             }
         }
 
-        stage('Deploy Container') {
-            steps {
-                sh """
-                docker rm -f static-site-demo || true
-                docker run -d -p 8080:80 --name static-site-demo ${IMAGE_NAME}:latest
-                """
+       stage('Deploy Container') {
+    steps {
+        script {
+            // Stop & remove existing container if exists
+            sh "docker rm -f static-site-demo || true"
+
+            // Check if port 8080 is free
+            def portCheck = sh(script: "lsof -i:8080", returnStatus: true)
+            
+            if (portCheck == 0) {
+                // Port 8080 is in use, use 9090 instead
+                sh "docker run -d -p 9090:80 --name static-site-demo ${IMAGE_NAME}:latest"
+                echo "Port 8080 is busy, running container on port 9090"
+            } else {
+                // Port 8080 is free
+                sh "docker run -d -p 8080:80 --name static-site-demo ${IMAGE_NAME}:latest"
+                echo "Container deployed on port 8080"
             }
         }
     }
