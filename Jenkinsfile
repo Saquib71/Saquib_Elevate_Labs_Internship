@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Saquib71/Saquib_Elevate_Labs-Internship.git', 
+                git branch: 'main', url: 'https://github.com/Saquib71/Saquib_Elevate_Labs_Internship.git', 
                     credentialsId: 'GitHub_Credentials'
             }
         }
