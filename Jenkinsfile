@@ -26,27 +26,4 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'Docker_Hub_Credentials') {
-                        docker.image("${IMAGE_NAME}:latest").push()
-                    }
-                }
-            }
-        }
-
-       stage('Deploy Container') {
-    steps {
-        script {
-            sh "docker rm -f static-site-demo || true"
-
-            def portCheck = sh(script: "lsof -i:8080", returnStatus: true)
-
-            if (portCheck == 0) {
-                sh "docker run -d -p 9090:80 --name static-site-demo ${IMAGE_NAME}:latest"
-                echo "Port 8080 busy, running on 9090"
-            } else {
-                sh "docker run -d -p 8080:80 --name static-site-demo ${IMAGE_NAME}:latest"
-                echo "Container deployed on port 8080"
-            }
-        }
-    }
-}
+                    docker.withR
